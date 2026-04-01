@@ -1,3 +1,28 @@
-#main file for the Tournament App.
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk
 
-print("Hello, Tournament App!")
+#window setup and size
+window = tk.Tk()
+window.title("Tournament App")
+window.geometry("400x300")
+
+#mainmenu setup
+def show_main_setup():
+    for widget in window.winfo_children():
+        #to clear the window
+        widget.destroy()
+
+#creating the main menu title
+    tk.Label(window, text="Tournament Scoring System", font=("Arial", 16)).pack(pady=20)
+#creating buttons for the menu
+    tk.Button(window, text="Set Up Competitors", width=15, command=show_main_setup).pack(pady=10)
+    tk.Button(window, text="Enter Event Scores", width=15, command=show_main_setup).pack(pady=10)
+    tk.Button(window, text="View Results", width=15, command=show_main_setup).pack(pady=10)
+
+y
+
+show_main_setup()
+
+
+window.mainloop()
