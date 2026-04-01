@@ -8,16 +8,16 @@
 # 1. Project Overview
 
 ## Project Title
-[Write your project title here]
+[scoring tournament app]
 
 ## Project Description
-[Briefly explain what the project is about]
+[We have to create an app for a tournament, where the app can be able to track points and allow the school to create teams etc. and it has to be easy to use for anyone.]
 
 ## Start Date
-[Unknown / add later]
+[31.1.2026 i started coding]
 
 ## Target End Date
-[Unknown / add later]
+[Unknown]
 
 ## File list.
 
@@ -31,56 +31,49 @@
 
 ---
 ## Session [01]
-**Date:** [Add date later]  
-**Time spent:** [e.g. 45 min / 2 hours]  
-**Focus:** [What did you work on?]
+**Date:** [31.3.2026]  
+**Time spent:** [50min]  
+**Focus:** [Designing the layout of the website]
 
 ### Problems / Challenges
-- 
+- no problems yet
 - 
 
 ### Solutions / Actions Taken
-- 
+- actions taken were making the design
 - 
 
 ### Evidence
-- [Added code]
-- [Updated design]
-- [Created sketch]
-- [Researched source]
-- [Uploaded image/screenshot]
+- I added the code of the mainmenu and the buttons as we can see from line  1 to 27.
+
 
 ### Reflection
-- What went well?
-- What needs improvement?
-- What did I learn?
+- What went well? the whole process went well
+- What needs improvement? now to make the buttons work and make their functions work
+- What did I learn? i learned about that i have to loop my code at the end to make it work
 
 ---
 
 ## Session [02]
-**Date:** [Add date later]  
-**Time spent:** [e.g. 45 min / 2 hours]  
-**Focus:** [What did you work on?]
+**Date:** [1.4.2026]  
+**Time spent:** [30 min]  
+**Focus:** [Building the competitor setup screen and linking it to the main menu]
 
 ### Problems / Challenges
-- 
-- 
+- Used column= inside .pack() which caused an error
+- Wasn't sure how to link buttons to different screens, because i had to expeirence with it yet.
 
 ### Solutions / Actions Taken
-- 
-- 
+- Removed column= since it only works with .grid(), not .pack()
+- Used command=show_competitor_setup to connect the button to the new screen
 
 ### Evidence
-- [Added code]
-- [Updated design]
-- [Created sketch]
-- [Researched source]
-- [Uploaded image/screenshot]
+- Added code from line 10 - 20
 
 ### Reflection
-- What went well?
-- What needs improvement?
-- What did I learn?
+- What went well? The screen navigation works and I understand how functions clear and how to go back to the main window
+- What needs improvement? Need to get more familiar with which options work with .pack() vs .grid()
+- What did I learn? Screens in Tkinter are just functions, not separate files
 
 ---
 ## Session [02]
