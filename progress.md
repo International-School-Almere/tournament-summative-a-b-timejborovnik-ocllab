@@ -76,30 +76,26 @@
 - What did I learn? Screens in Tkinter are just functions, not separate files
 
 ---
-## Session [02]
-**Date:** [Add date later]  
-**Time spent:** [e.g. 45 min / 2 hours]  
-**Focus:** [What did you work on?]
+# Session [03]
+**Date:** [7.4.2026]  
+**Time spent:** [60 min]  
+**Focus:** Adding a team name input field to the competitor setup screen
 
 ### Problems / Challenges
-- 
-- 
+- Wasn't sure how to read what the user typed into the input box
+- The window was too small and some elements were getting cut off
 
 ### Solutions / Actions Taken
-- 
-- 
+- Used .get() to retrieve the text from the tk.Entry widget
+- Changed the window height from 300 to 400 so everything fits
 
 ### Evidence
-- [Added code]
-- [Updated design]
-- [Created sketch]
-- [Researched source]
-- [Uploaded image/screenshot]
+- Added code
 
 ### Reflection
-- What went well?
-- What needs improvement?
-- What did I learn?
+- What went well? The input field works and the error popup shows correctly when the name is left blank
+- What needs improvement? Need to learn how to store the saved name so it can be used later in the program
+- What did I learn? tk.Entry creates a text box, .get() reads it, and .strip() removes accidental spaces so a blank space doesn't count as a valid name
 
 ---
 

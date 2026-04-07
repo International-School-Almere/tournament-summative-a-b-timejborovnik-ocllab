@@ -5,7 +5,7 @@ from tkinter import ttk
 #window setup and size
 window = tk.Tk()
 window.title("Tournament App")
-window.geometry("400x300")
+window.geometry("400x400")
 
 # Screen 2 - Competitor Setup
 def show_competitor_setup():
@@ -14,9 +14,20 @@ def show_competitor_setup():
 
     tk.Label(window, text="Set Up Competitors", font=("Arial", 16)).pack(pady=20)
 
-    tk.Label(window, text="add teams and stuff here later on").pack()
+    # Team name input
+    tk.Label(window, text="Enter Team 1 Name:").pack()
+    team_name_entry = tk.Entry(window, width=30)
+    team_name_entry.pack(pady=5)
 
-    tk.Button(window, text="Back to Menu", command=show_main_setup).pack(pady=20)
+    def save_team():
+        name = team_name_entry.get()
+        if name.strip() == "":
+            messagebox.showerror("Error", "Team name cannot be blank")
+        else:
+            messagebox.showinfo("Saved", f"Team name '{name}' saved!")
+
+    tk.Button(window, text="Save Team Name", command=save_team).pack(pady=10)
+    tk.Button(window, text="Back to Menu", command=show_main_setup).pack(pady=5)
 
 #mainmenu setup
 def show_main_setup():
