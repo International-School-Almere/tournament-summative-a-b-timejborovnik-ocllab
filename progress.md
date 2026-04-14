@@ -14,7 +14,7 @@
 [We have to create an app for a tournament, where the app can be able to track points and allow the school to create teams etc. and it has to be easy to use for anyone.]
 
 ## Start Date
-[31.1.2026 i started coding]
+[31.3.2026 i started coding]
 
 ## Target End Date
 [Unknown]
@@ -98,7 +98,15 @@
 - What did I learn? tk.Entry creates a text box, .get() reads it, and .strip() removes accidental spaces so a blank space doesn't count as a valid name
 
 ---
+# Session [04]
+**Date:** [14.4.2026]  
+**Time spent:** [120 min]  
+Reflection
+- What went well? the input field worked first try which was nice, and the error popup shows up correctly when you leave the name blank which is what i wanted
 
+- What needs improvement? i still need to figure out how to actually store the name somewhere so i can use it later in the program, right now it just shows the popup but doesnt really save anything properly
+
+- What did I learn? i learned that tk.Entry makes the text box and you use .get() to read whatever the user typed, also that .strip() is useful because it stops someone just pressing space and it counting as a valid name
 
 # 7. Problems and Fixes
 
