@@ -1,6 +1,8 @@
 import tkinter as tk  # Import the main tkinter module for GUI creation
 from tkinter import messagebox  # Import messagebox for pop up alerts
 from tkinter import ttk  # Import ttk for advanced widget
+import json  # Import json so we can save and load data from a file
+import os  # Import os so we can check if the save file exists
 
 # Create the main application window
 window = tk.Tk()
@@ -11,12 +13,59 @@ window.geometry("400x500")  # Set the window size
 teams = []
 scores = {}
 
-# New: dictionary to store list of members for each team
+# dictionary to store list of members for each team
 team_members = {}
 
-# New: list and dictionary for individual competitors and their scores
+# list and dictionary for individual competitors and their scores
 individuals = []
 individual_scores = {}
+
+# Get the folder where this script is saved, then put the json file there too
+# This fixes the problem where the file gets saved in the wrong place
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SAVE_FILE = os.path.join(SCRIPT_DIR, "tournament_data.json")
+
+print("Save file location:", SAVE_FILE)
+
+# Function to save all data to a json file
+def save_data():
+    # Put all the data into one dictionary
+    data = {
+        "teams": teams,
+        "scores": scores,
+        "team_members": team_members,
+        "individuals": individuals,
+        "individual_scores": individual_scores
+    }
+    # Open the file and write the data as json
+    with open(SAVE_FILE, "w") as f:
+        json.dump(data, f)
+    print("Data saved to:", SAVE_FILE)
+
+
+# Function to load data from the json file when the app starts
+def load_data():
+    # Check if the file actually exists first
+    if not os.path.exists(SAVE_FILE):
+        return  # If no file, just start fresh
+
+    # Try to open and read the file
+    try:
+        with open(SAVE_FILE, "r") as f:
+            data = json.load(f)
+
+        # Put the loaded data back into the global variables
+        # We use .extend() and .update() so we dont replace the list/dict objects themselves
+        teams.extend(data.get("teams", []))
+        scores.update(data.get("scores", {}))
+        team_members.update(data.get("team_members", {}))
+        individuals.extend(data.get("individuals", []))
+        individual_scores.update(data.get("individual_scores", {}))
+
+    except Exception as e:
+        # If something goes wrong reading the file just ignore it and start fresh
+        messagebox.showwarning("Warning", f"Could not load saved data. Error: {e}")
+
 
 # Function to show the competitor setup screen
 def show_competitor_setup():
@@ -55,24 +104,27 @@ def show_competitor_setup():
             # Add team and initialize score
             teams.append(name)
             scores[name] = 0
-            # New: create an empty members list for this team
+            # create an empty members list for this team
             team_members[name] = []
             team_listbox.insert(tk.END, name)
 
             # Clear input field
             team_name_entry.delete(0, tk.END)
 
+            # Save to file after adding the team
+            save_data()
+
             # Confirmation message
             messagebox.showinfo("Saved", f"Team '{name}' added!")
 
     # Buttons for saving team and returning to menu
     tk.Button(window, text="Save Team", command=save_team).pack(pady=5)
-    # New: button to go to the manage members screen
+    # button to go to the manage members screen
     tk.Button(window, text="Manage Team Members", command=show_manage_members).pack(pady=5)
     tk.Button(window, text="Back to Menu", command=show_main_setup).pack(pady=5)
 
 
-# New: Function to add members to a team
+# Function to add members to a team
 def show_manage_members():
     # Clear all existing widgets from the window
     for widget in window.winfo_children():
@@ -130,6 +182,10 @@ def show_manage_members():
             team_members[selected_team].append(member_name)
             member_listbox.insert(tk.END, member_name)
             member_entry.delete(0, tk.END)  # Clear the entry field
+
+            # Save to file after adding member
+            save_data()
+
             messagebox.showinfo("Saved", f"'{member_name}' added to '{selected_team}'!")
 
     # Buttons for adding a member and going back
@@ -137,7 +193,7 @@ def show_manage_members():
     tk.Button(window, text="Back", command=show_competitor_setup).pack(pady=5)
 
 
-# New: Function to show the individual competitor setup screen
+# Function to show the individual competitor setup screen
 def show_individual_setup():
     # Clear all existing widgets from the window
     for widget in window.winfo_children():
@@ -176,6 +232,10 @@ def show_individual_setup():
             individual_scores[name] = 0
             individual_listbox.insert(tk.END, name)
             individual_entry.delete(0, tk.END)  # Clear the entry field
+
+            # Save to file after adding individual
+            save_data()
+
             messagebox.showinfo("Saved", f"'{name}' added!")
 
     # Buttons for saving and going back to menu
@@ -222,6 +282,9 @@ def show_enter_scores():
             # Add points to selected team
             scores[team] += pts
 
+            # Save to file after updating score
+            save_data()
+
             # Show confirmation
             messagebox.showinfo("Saved", f"Added {pts} points to '{team}'. Total: {scores[team]}")
 
@@ -236,7 +299,7 @@ def show_enter_scores():
     tk.Button(window, text="Back to Menu", command=show_main_setup).pack(pady=5)
 
 
-# New: Function to enter scores for individual competitors
+# Function to enter scores for individual competitors
 def show_enter_individual_scores():
     # Clear the window
     for widget in window.winfo_children():
@@ -275,6 +338,9 @@ def show_enter_individual_scores():
             # Add points to selected individual
             individual_scores[person] += pts
 
+            # Save to file after updating score
+            save_data()
+
             # Show confirmation
             messagebox.showinfo("Saved", f"Added {pts} points to '{person}'. Total: {individual_scores[person]}")
 
@@ -312,12 +378,12 @@ def show_results():
         for i, (team, pts) in enumerate(sort_teams, 1):
             tk.Label(window, text=f"{i}. {team} - {pts} points", font=("Arial", 12)).pack(pady=2)
 
-            # New: show the team's members in grey text underneath
+            # show the team's members in grey text underneath
             members = team_members.get(team, [])
             if members:
                 tk.Label(window, text="   Members: " + ", ".join(members), font=("Arial", 9), fg="gray").pack()
 
-    # New: Individual results section
+    # Individual results section
     tk.Label(window, text="-- Individual Standings --", font=("Arial", 13, "bold")).pack(pady=5)
 
     # If no individual scores exist, show warning
@@ -346,12 +412,16 @@ def show_main_setup():
 
     # Navigation buttons
     tk.Button(window, text="Set Up Competitors", width=22, command=show_competitor_setup).pack(pady=7)
-    # New: button to go to individual setup screen
+    # button to go to individual setup screen
     tk.Button(window, text="Set Up Individuals", width=22, command=show_individual_setup).pack(pady=7)
     tk.Button(window, text="Enter Event Scores", width=22, command=show_enter_scores).pack(pady=7)
-    # New: button to go to individual score entry screen
+    # button to go to individual score entry screen
     tk.Button(window, text="Enter Individual Scores", width=22, command=show_enter_individual_scores).pack(pady=7)
     tk.Button(window, text="View Results", width=22, command=show_results).pack(pady=7)
+
+
+# Load any saved data before showing the menu
+load_data()
 
 # Start by showing the main menu
 show_main_setup()
